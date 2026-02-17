@@ -8,7 +8,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $categories = \App\Models\Category::where('is_active', true)->with('subCategories')->get();
+        $categories = \App\Models\Category::where('is_active', true)->get();
         $products = \App\Models\Product::where('is_active', true)->paginate(12);
 
         return view('catalog.index', compact('categories', 'products'));
@@ -17,7 +17,7 @@ class ProductController extends Controller
     public function show($locale, $slug)
     {
         $product = \App\Models\Product::where('slug', $slug)->where('is_active', true)->firstOrFail();
-        $relatedProducts = \App\Models\Product::where('sub_category_id', $product->sub_category_id)
+        $relatedProducts = \App\Models\Product::where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
             ->where('is_active', true)
             ->take(4)
@@ -29,11 +29,9 @@ class ProductController extends Controller
     public function category($locale, $slug)
     {
         $category = \App\Models\Category::where('slug', $slug)->where('is_active', true)->firstOrFail();
-        $categories = \App\Models\Category::where('is_active', true)->with('subCategories')->get();
+        $categories = \App\Models\Category::where('is_active', true)->get();
         
-        // Get products via subcategories
-        $subCategoryIds = $category->subCategories->pluck('id');
-        $products = \App\Models\Product::whereIn('sub_category_id', $subCategoryIds)
+        $products = \App\Models\Product::where('category_id', $category->id)
             ->where('is_active', true)
             ->paginate(12);
 

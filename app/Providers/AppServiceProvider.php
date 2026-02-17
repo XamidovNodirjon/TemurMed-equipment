@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         \Illuminate\Support\Facades\View::composer('partials.navbar', function ($view) {
-            $view->with('categories', \App\Models\Category::with('subCategories')->where('is_active', true)->get());
+            $view->with('categories', \App\Models\Category::where('is_active', true)->get());
         });
     }
 }

@@ -98,8 +98,8 @@
             <!-- Catalog & Search -->
             <div class="flex-1 max-w-3xl flex items-center gap-2 relative">
                 <!-- Catalog Dropdown -->
-                <div x-data="{ open: false, activeCategory: null }" class="relative">
-                    <button @click="open = !open" @click.away="open = false; activeCategory = null" class="inline-flex items-center px-6 py-2.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none transition-colors">
+                <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                    <button class="inline-flex items-center px-6 py-2.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none transition-colors">
                         <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
@@ -108,60 +108,27 @@
 
                     <!-- Dropdown Menu -->
                     <div x-show="open" 
-                         class="absolute top-full left-0 mt-2 w-[600px] bg-white rounded-md shadow-xl border border-gray-100 flex overflow-hidden max-h-[500px]" 
+                         class="absolute top-full left-0 mt-2 w-[900px] bg-white rounded-lg shadow-xl border border-gray-100 z-50 overflow-hidden" 
                          x-cloak
                          style="display: none;"
-                         x-transition:enter="transition ease-out duration-200"
-                         x-transition:enter-start="opacity-0 translateY-2"
-                         x-transition:enter-end="opacity-100 translateY-0"
-                         x-transition:leave="transition ease-in duration-150"
-                         x-transition:leave-start="opacity-100 translateY-0"
-                         x-transition:leave-end="opacity-0 translateY-2">
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0 -translate-y-2"
+                         x-transition:enter-end="opacity-100 translate-y-0"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100 translate-y-0"
+                         x-transition:leave-end="opacity-0 -translate-y-2">
                         
-                        <!-- Categories List (Left) -->
-                        <div class="w-1/3 bg-gray-50 border-r border-gray-100 overflow-y-auto">
-                            <ul class="py-2">
+                        <div class="p-8">
+                            <ul class="grid grid-cols-3 gap-y-6 gap-x-8">
                                 @foreach($categories as $category)
-                                    <li @mouseenter="activeCategory = {{ $category->id }}">
+                                    <li>
                                         <a href="{{ route('catalog.category', ['locale' => app()->getLocale(), 'slug' => $category->slug]) }}" 
-                                           class="flex items-center justify-between px-4 py-3 text-sm text-gray-700 hover:bg-white hover:text-blue-600 transition-colors cursor-pointer border-l-4 border-transparent hover:border-blue-600"
-                                           :class="{'bg-white text-blue-600 border-blue-600': activeCategory == {{ $category->id }}}">
-                                            <span>{{ $category->name }}</span>
-                                            <svg class="h-4 w-4 text-gray-400 group-hover:text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                            </svg>
+                                           class="flex items-center group p-2 -ml-2 rounded-md hover:bg-gray-50 transition-colors">
+                                            <span class="text-base font-medium text-gray-700 group-hover:text-blue-600 transition-colors">{{ $category->name }}</span>
                                         </a>
                                     </li>
                                 @endforeach
                             </ul>
-                        </div>
-
-                        <!-- Subcategories Panel (Right) -->
-                        <div class="w-2/3 bg-white p-6 overflow-y-auto">
-                            @foreach($categories as $category)
-                                <div x-show="activeCategory == {{ $category->id }}" style="display: none;">
-                                    <h3 class="text-base font-bold text-gray-900 mb-4 border-b border-gray-100 pb-2">{{ $category->name }}</h3>
-                                    @if($category->subCategories->count() > 0)
-                                        <div class="grid grid-cols-2 gap-4">
-                                            @foreach($category->subCategories as $subCategory)
-                                                <a href="#" class="text-sm text-gray-600 hover:text-blue-600 hover:underline">
-                                                    {{ $subCategory->name }}
-                                                </a>
-                                            @endforeach
-                                        </div>
-                                    @else
-                                        <p class="text-sm text-gray-400">{{ __('navbar.middle.no_subcategories') }}</p>
-                                    @endif
-                                </div>
-                            @endforeach
-                            
-                            <!-- Default State -->
-                            <div x-show="!activeCategory" class="flex flex-col items-center justify-center h-full text-gray-400">
-                                <svg class="h-16 w-16 mb-4 text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                                </svg>
-                                <p>{{ __('navbar.middle.hover_details') }}</p>
-                            </div>
                         </div>
                     </div>
                 </div>

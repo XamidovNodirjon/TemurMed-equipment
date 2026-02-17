@@ -48,11 +48,11 @@
                         <p class="text-lg sm:text-xl md:text-2xl text-gray-200 mb-8 max-w-lg" x-text="slide.subtitle"></p>
                         
                         <div class="flex flex-wrap gap-4">
-                            <!-- View Catalog Button (Opens Modal) -->
-                            <button @click="$dispatch('open-catalog-modal')" 
-                                    class="px-8 py-3 bg-blue-600 border border-transparent rounded-full text-white text-base font-semibold hover:bg-blue-700 md:py-4 md:text-lg md:px-10 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                            <!-- View Catalog Button -->
+                            <a href="{{ route('catalog.index', ['locale' => app()->getLocale()]) }}" 
+                               class="px-8 py-3 bg-blue-600 border border-transparent rounded-full text-white text-base font-semibold hover:bg-blue-700 md:py-4 md:text-lg md:px-10 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                                 {{ __('home.hero.view_catalog') }}
-                            </button>
+                            </a>
                             
                             <!-- Optional Link Button -->
                             <template x-if="slide.link">
@@ -239,77 +239,5 @@
     </div>
     @endif
     <!-- Featured Categories removed -->
-    <!-- View Catalog Modal -->
-    <div x-data="{ open: false }"
-         @open-catalog-modal.window="open = true"
-         x-show="open"
-         class="fixed inset-0 z-50 overflow-y-auto"
-         aria-labelledby="modal-title" role="dialog" aria-modal="true"
-         style="display: none;">
-        
-        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div x-show="open" 
-                 x-transition:enter="ease-out duration-300"
-                 x-transition:enter-start="opacity-0"
-                 x-transition:enter-end="opacity-100"
-                 x-transition:leave="ease-in duration-200"
-                 x-transition:leave-start="opacity-100"
-                 x-transition:leave-end="opacity-0"
-                 class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" 
-                 @click="open = false"
-                 aria-hidden="true"></div>
-
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-            <div x-show="open"
-                 x-transition:enter="ease-out duration-300"
-                 x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                 x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-                 x-transition:leave="ease-in duration-200"
-                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                 class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <div class="sm:flex sm:items-start">
-                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
-                            <!-- Heroicon name: outline/book-open -->
-                            <svg class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                            </svg>
-                        </div>
-                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                                {{ __('home.modal.title') }}
-                            </h3>
-                            <div class="mt-2">
-                                <p class="text-sm text-gray-500">
-                                    {{ __('home.modal.desc') }}
-                                </p>
-                                
-                                <form action="#" method="POST" class="mt-4 space-y-4" @submit.prevent="alert('Submitted! (Placeholder)')">
-                                    <div>
-                                        <label for="name" class="block text-sm font-medium text-gray-700">{{ __('home.modal.name') }}</label>
-                                        <input type="text" name="name" id="name" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                                    </div>
-                                    <div>
-                                        <label for="phone" class="block text-sm font-medium text-gray-700">{{ __('home.modal.phone') }}</label>
-                                        <input type="tel" name="phone" id="phone" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                                    </div>
-                                    <div class="py-3 sm:flex sm:flex-row-reverse">
-                                        <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
-                                            {{ __('home.modal.submit') }}
-                                        </button>
-                                        <button type="button" @click="open = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                                            {{ __('home.modal.cancel') }}
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Featured Categories removed -->
 @endsection

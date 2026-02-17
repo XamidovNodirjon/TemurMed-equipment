@@ -23,6 +23,21 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function getModelLabel(): string
+    {
+        return 'Продукт';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Продукты';
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Продукты';
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -30,45 +45,46 @@ class ProductResource extends Resource
                 Forms\Components\Section::make()
                     ->schema([
                         Forms\Components\Select::make('category_id')
-                            ->label('Category')
+                            ->label('Категория')
                             ->options(\App\Models\Category::all()->pluck('name', 'id'))
                             ->searchable()
                             ->required(),
 
                         Forms\Components\Tabs::make('Translations')
                             ->tabs([
-                                Forms\Components\Tabs\Tab::make('Uzbek')
+                                Forms\Components\Tabs\Tab::make('O\'zbekcha')
                                     ->schema([
                                         Forms\Components\TextInput::make('name_uz')
-                                            ->label('Name (UZ)')
+                                            ->label('Название (UZ)')
                                             ->required()
                                             ->live(onBlur: true)
                                             ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('slug', \Illuminate\Support\Str::slug($state))),
                                         Forms\Components\RichEditor::make('description_uz')
-                                            ->label('Description (UZ)')
+                                            ->label('Описание (UZ)')
                                             ->nullable(),
                                     ]),
-                                Forms\Components\Tabs\Tab::make('Russian')
+                                Forms\Components\Tabs\Tab::make('Русский')
                                     ->schema([
                                         Forms\Components\TextInput::make('name_ru')
-                                            ->label('Name (RU)')
+                                            ->label('Название (RU)')
                                             ->required(),
                                         Forms\Components\RichEditor::make('description_ru')
-                                            ->label('Description (RU)')
+                                            ->label('Описание (RU)')
                                             ->nullable(),
                                     ]),
                                 Forms\Components\Tabs\Tab::make('English')
                                     ->schema([
                                         Forms\Components\TextInput::make('name_en')
-                                            ->label('Name (EN)')
+                                            ->label('Название (EN)')
                                             ->required(),
                                         Forms\Components\RichEditor::make('description_en')
-                                            ->label('Description (EN)')
+                                            ->label('Описание (EN)')
                                             ->nullable(),
                                     ]),
                             ])->columnSpanFull(),
 
                         Forms\Components\TextInput::make('slug')
+                            ->label('Slug')
                             ->required()
                             ->maxLength(255)
                             ->unique(ignoreRecord: true),
@@ -77,25 +93,28 @@ class ProductResource extends Resource
                 Forms\Components\Section::make()
                     ->schema([
                         Forms\Components\FileUpload::make('image')
+                            ->label('Изображение')
                             ->image()
                             ->directory('products'),
                         Forms\Components\TextInput::make('price')
+                            ->label('Цена')
                             ->numeric()
                             ->prefix('$'),
                         Forms\Components\Toggle::make('is_active')
+                            ->label('Активен')
                             ->required()
                             ->default(true),
                         Forms\Components\Toggle::make('is_recommended')
-                            ->label('Recommended')
+                            ->label('Рекомендуемый')
                             ->default(false),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Content')
+                Forms\Components\Section::make('Характеристики')
                     ->schema([
-                        // Description moved to tabs
                         Forms\Components\KeyValue::make('specifications')
-                            ->keyLabel('Parameter')
-                            ->valueLabel('Value')
+                            ->label('Параметры')
+                            ->keyLabel('Параметр')
+                            ->valueLabel('Значение')
                             ->nullable(),
                     ]),
             ]);
@@ -105,29 +124,36 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('Изображение'),
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Название')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('category.name')
+                    ->label('Категория')
                     ->sortable(query: function (Builder $query, string $direction): Builder {
                         return $query->leftJoin('categories', 'products.category_id', '=', 'categories.id')
                             ->orderByRaw("categories.name->>'".app()->getLocale()."' $direction");
                     }),
                 Tables\Columns\TextColumn::make('price')
+                    ->label('Цена')
                     ->money()
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_active')
+                    ->label('Активен')
                     ->boolean(),
                 Tables\Columns\IconColumn::make('is_recommended')
                     ->boolean()
-                    ->label('Recommended'),
+                    ->label('Рекомендуемый'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Дата создания')
+                    ->dateTime('d.m.Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->label('Дата обновления')
+                    ->dateTime('d.m.Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

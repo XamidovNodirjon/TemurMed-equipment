@@ -19,24 +19,50 @@ class ApplicationResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function getModelLabel(): string
+    {
+        return 'Заявка';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Заявки';
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Заявки';
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Имя')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone')
+                    ->label('Телефон')
                     ->tel()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('message')
+                    ->label('Сообщение')
                     ->columnSpanFull(),
+                Forms\Components\Select::make('product_id')
+                    ->relationship('product', 'name')
+                    ->disabled()
+                    ->label('Товар'),
+                Forms\Components\TextInput::make('locale')
+                    ->label('Язык')
+                    ->disabled(),
                 Forms\Components\Select::make('status')
+                    ->label('Статус')
                     ->options([
-                        'pending' => 'Pending',
-                        'processed' => 'Processed',
-                        'canceled' => 'Canceled',
+                        'pending' => 'В ожидании',
+                        'processed' => 'Обработано',
+                        'canceled' => 'Отменено',
                     ])
                     ->required()
                     ->default('pending'),
@@ -48,22 +74,41 @@ class ApplicationResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Имя')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
+                    ->label('Телефон')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('product.name')
+                    ->label('Товар')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('locale')
+                    ->label('Язык')
+                    ->badge()
+                    ->color('info')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->label('Статус')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'pending' => 'warning',
                         'processed' => 'success',
                         'canceled' => 'danger',
+                    })
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'pending' => 'В ожидании',
+                        'processed' => 'Обработано',
+                        'canceled' => 'Отменено',
                     }),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Дата создания')
+                    ->dateTime('d.m.Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->label('Дата обновления')
+                    ->dateTime('d.m.Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

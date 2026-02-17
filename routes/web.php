@@ -22,5 +22,7 @@ Route::group(['prefix' => '{locale}', 'middleware' => 'set.locale'], function ()
 
     // About
     Route::get('/about', [App\Http\Controllers\AboutController::class, 'index'])->name('about');
-    Route::get('/news/{slug}', [App\Http\Controllers\NewsController::class, 'show'])->name('news.show');
+
+    // Application
+    Route::post('/application', [App\Http\Controllers\ApplicationController::class, 'store'])->name('application.store');
 });

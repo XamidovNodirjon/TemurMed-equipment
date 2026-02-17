@@ -24,20 +24,10 @@
                     <h3 class="text-lg font-bold text-gray-900">Categories</h3>
                     <div class="space-y-2">
                         @foreach($categories as $cat)
-                            <div x-data="{ open: false }">
-                                <button @click="open = !open" class="flex items-center justify-between w-full text-left text-gray-600 hover:text-blue-600">
-                                    <span class="font-medium">{{ $cat->name }}</span>
-                                    <svg class="h-5 w-5 transform transition-transform" :class="{'rotate-180': open}" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                    </svg>
-                                </button>
-                                <div x-show="open" class="ml-4 mt-2 space-y-1" x-cloak>
-                                    @foreach($cat->subCategories as $sub)
-                                        <a href="#" class="block text-sm text-gray-500 hover:text-blue-600">
-                                            {{ $sub->name }}
-                                        </a>
-                                    @endforeach
-                                </div>
+                            <div class="flex items-center justify-between w-full text-left text-gray-600 hover:text-blue-600 p-2 hover:bg-gray-50 rounded">
+                                <a href="{{ route('catalog.category', ['locale' => app()->getLocale(), 'slug' => $cat->slug]) }}" class="font-medium block w-full">
+                                    {{ $cat->name }}
+                                </a>
                             </div>
                         @endforeach
                     </div>
