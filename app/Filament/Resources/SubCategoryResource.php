@@ -20,6 +20,7 @@ class SubCategoryResource extends Resource
     // use Translatable;
 
     protected static ?string $model = SubCategory::class;
+    protected static bool $shouldRegisterNavigation = false;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -91,14 +92,16 @@ class SubCategoryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('category.name')
                     ->label('Категория')
-                    ->formatStateUsing(fn ($state, $record) => $record->category?->name)
                     ->sortable(query: function (Builder $query, string $direction): Builder {
-                        return $query->orderByRaw("name->>'".app()->getLocale()."' $direction"); // Sort by current locale
+                        return $query->leftJoin('categories', 'sub_categories.category_id', '=', 'categories.id')
+                            ->orderByRaw("categories.name->>'".app()->getLocale()."' $direction");
                     }),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Название')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable(query: function (Builder $query, string $direction): Builder {
+                        return $query->orderByRaw("name->>'".app()->getLocale()."' $direction");
+                    }),
                 Tables\Columns\TextColumn::make('slug')
                     ->label('Slug')
                     ->searchable(),

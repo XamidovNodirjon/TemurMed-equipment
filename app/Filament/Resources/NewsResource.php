@@ -18,7 +18,7 @@ class NewsResource extends Resource
 {
     protected static ?string $model = News::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
 
     public static function getModelLabel(): string
     {
@@ -106,7 +106,9 @@ class NewsResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->label('Заголовок')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable(query: function (Builder $query, string $direction): Builder {
+                        return $query->orderByRaw("title->>'".app()->getLocale()."' $direction");
+                    }),
                 Tables\Columns\TextColumn::make('published_at')
                     ->label('Дата публикации')
                     ->dateTime('d.m.Y H:i')

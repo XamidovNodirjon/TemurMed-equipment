@@ -22,7 +22,7 @@ class CategoryResource extends Resource
 
     protected static ?string $model = Category::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
 
     public static function getModelLabel(): string
     {
@@ -86,9 +86,11 @@ class CategoryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Название')
-                    ->formatStateUsing(fn ($record) => $record->name) // Accessor auto-selects locale
+                    ->formatStateUsing(fn ($record) => $record->name)
                     ->searchable()
-                    ->sortable(),
+                    ->sortable(query: function (Builder $query, string $direction): Builder {
+                        return $query->orderByRaw("name->>'".app()->getLocale()."' $direction");
+                    }),
                 Tables\Columns\TextColumn::make('slug')
                     ->label('Slug')
                     ->searchable(),

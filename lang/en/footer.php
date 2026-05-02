@@ -13,7 +13,7 @@ return [
     ],
     'contacts' => [
         'title' => 'CONTACTS',
-        'address' => 'Tashkent city, Yunusabad district, Amir Temur street, 107B',
+        'address' => 'Tashkent city, Mirzo-Ulugbek district, Shalola MFY, Feruza street, 23',
     ],
     'products' => 'Products',
     'catalog_desc' => 'Browse our full catalog.',

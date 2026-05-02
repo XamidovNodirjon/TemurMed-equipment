@@ -11,5 +11,6 @@ return [
     'show' => [
         'back' => 'Yangiliklarga qaytish',
         'share' => 'Ulashish',
+        'views' => 'ko\'rishlar soni',
     ],
 ];

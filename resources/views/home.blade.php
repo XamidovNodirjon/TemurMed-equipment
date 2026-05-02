@@ -48,16 +48,17 @@
                         <p class="text-lg sm:text-xl md:text-2xl text-gray-200 mb-8 max-w-lg" x-text="slide.subtitle"></p>
                         
                         <div class="flex flex-wrap gap-4">
-                            <!-- View Catalog Button -->
-                            <a href="{{ route('catalog.index', ['locale' => app()->getLocale()]) }}" 
-                               class="px-8 py-3 bg-blue-600 border border-transparent rounded-full text-white text-base font-semibold hover:bg-blue-700 md:py-4 md:text-lg md:px-10 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                                {{ __('home.hero.view_catalog') }}
-                            </a>
-                            
-                            <!-- Optional Link Button -->
+                            <!-- Show "Batafsil" if link exists, otherwise show "Katalog" -->
                             <template x-if="slide.link">
-                                <a :href="slide.link" class="px-8 py-3 bg-transparent border-2 border-white rounded-full text-white text-base font-semibold hover:bg-white hover:text-gray-900 md:py-4 md:text-lg md:px-10 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1">
-                                    {{ __('home.hero.learn_more') }}
+                                <a :href="slide.link" 
+                                   class="px-8 py-3 bg-blue-600 border border-transparent rounded-xl text-white text-base font-semibold hover:bg-blue-700 md:py-4 md:text-lg md:px-10 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                                    Batafsil
+                                </a>
+                            </template>
+                            <template x-if="!slide.link">
+                                <a href="{{ route('catalog.index', ['locale' => app()->getLocale()]) }}" 
+                                   class="px-8 py-3 bg-blue-600 border border-transparent rounded-xl text-white text-base font-semibold hover:bg-blue-700 md:py-4 md:text-lg md:px-10 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                                    {{ __('home.hero.view_catalog') }}
                                 </a>
                             </template>
                         </div>
@@ -103,17 +104,17 @@
                     </p>
                 </div>
 
-                <!-- Feature 2: Factory Advantage -->
+                <!-- Feature 2: Service -->
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-8 text-center group">
                     <div class="inline-flex items-center justify-center p-4 bg-orange-50 text-orange-600 rounded-full mb-6 group-hover:bg-orange-100 transition-colors">
-                        <!-- Heroicon name: outline/office-building -->
+                        <!-- Heroicon name: outline/key -->
                         <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                         </svg>
                     </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-3">{{ __('home.features.factory') }}</h3>
+                    <h3 class="text-lg font-bold text-gray-900 mb-3">{{ __('home.features.service') }}</h3>
                     <p class="text-sm text-gray-600 leading-relaxed px-2">
-                        {{ __('home.features.factory_desc') }}
+                        {{ __('home.features.service_desc') }}
                     </p>
                 </div>
 

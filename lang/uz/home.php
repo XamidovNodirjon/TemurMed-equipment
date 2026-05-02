@@ -8,8 +8,8 @@ return [
     'features' => [
         'quality' => 'Yuqori sifat',
         'quality_desc' => 'Har bir detalda mukammallik va premium darajadagi tibbiy yotoqlar.',
-        'factory' => 'Zavod ustunligi',
-        'factory_desc' => 'Oylik ishlab chiqarish quvvati 300 dan ortiq yotoq.',
+        'service' => 'Xizmat ko\'rsatish',
+        'service_desc' => 'Yuqori sifatli xizmat ko\'rsatish va professional yondashuv.',
         'experience' => 'Ko\'p yillik tajriba',
         'experience_desc' => '7 yildan ortiq tajriba va tibbiy yotoqlar bo\'yicha mutaxassislar. 500 dan ortiq muvaffaqiyatli loyihalar.',
         'customer' => 'Mijozlarga yo\'naltirilganlik',
@@ -25,6 +25,11 @@ return [
         'title' => 'Blog',
         'subtitle' => 'So\'nggi yangiliklar',
         'view_all' => 'Barcha yangiliklarni ko\'rish',
+    ],
+    'projects' => [
+        'title' => 'Loyihalar',
+        'subtitle' => 'Bizning loyihalarimiz',
+        'view_all' => 'Barcha loyihalarni ko\'rish',
     ],
     'modal' => [
         'title' => 'Katalogni yuklab olish',

@@ -8,8 +8,8 @@ return [
     'features' => [
         'quality' => 'High Quality',
         'quality_desc' => 'Perfection in every detail and premium-class medical beds.',
-        'factory' => 'Factory Advantage',
-        'factory_desc' => 'Monthly production capacity is over 300 beds.',
+        'service' => 'Service',
+        'service_desc' => 'High-quality service and professional approach.',
         'experience' => 'Years of Experience',
         'experience_desc' => 'Over 7 years of work and experts in medical beds. Over 500 completed projects.',
         'customer' => 'Customer Orientation',
@@ -25,6 +25,11 @@ return [
         'title' => 'Blog',
         'subtitle' => 'Latest News',
         'view_all' => 'View All News',
+    ],
+    'projects' => [
+        'title' => 'Projects',
+        'subtitle' => 'Our Projects',
+        'view_all' => 'View All Projects',
     ],
     'modal' => [
         'title' => 'Download Catalog',

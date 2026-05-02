@@ -15,12 +15,16 @@ class ApplicationsChart extends ChartWidget
 
     protected function getData(): array
     {
-        $data = Application::query()
-            ->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
-            ->where('created_at', '>=', now()->subDays(30))
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
+        try {
+            $data = Application::query()
+                ->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
+                ->where('created_at', '>=', now()->subDays(30))
+                ->groupBy('date')
+                ->orderBy('date')
+                ->get();
+        } catch (\Exception $e) {
+            $data = collect();
+        }
 
         // Fill in missing days
         $chartData = [];

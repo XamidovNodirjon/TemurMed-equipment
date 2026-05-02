@@ -20,6 +20,10 @@ Route::group(['prefix' => '{locale}', 'middleware' => 'set.locale'], function ()
     Route::get('/news', [App\Http\Controllers\NewsController::class, 'index'])->name('news.index');
     Route::get('/news/{slug}', [App\Http\Controllers\NewsController::class, 'show'])->name('news.show');
 
+    // Projects
+    Route::get('/projects', [App\Http\Controllers\ProjectController::class, 'index'])->name('projects.index');
+    Route::get('/projects/{slug}', [App\Http\Controllers\ProjectController::class, 'show'])->name('projects.show');
+
     // About
     Route::get('/about', [App\Http\Controllers\AboutController::class, 'index'])->name('about');
 

@@ -15,11 +15,13 @@ class NewsController extends Controller
         return view('news.index', compact('news'));
     }
 
-    public function show($slug)
+    public function show($locale, $slug)
     {
         $news = \App\Models\News::where('slug', $slug)
             ->where('is_active', true)
             ->firstOrFail();
+
+        $news->increment('views_count');
 
         return view('news.show', compact('news'));
     }

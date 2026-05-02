@@ -11,5 +11,6 @@ return [
     'show' => [
         'back' => 'Back to News',
         'share' => 'Share',
+        'views' => 'views',
     ],
 ];

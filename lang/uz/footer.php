@@ -13,7 +13,7 @@ return [
     ],
     'contacts' => [
         'title' => 'ALOQA',
-        'address' => 'Toshkent sh., Yunusobod tumani, Amir Temur ko\'chasi, 107B',
+        'address' => 'Toshkent shahar, Mirzo Ulug`bek tumani, Shalola MFY, Feruza ko`chasi 23-uy',
     ],
     'products' => 'Mahsulotlar',
     'catalog_desc' => 'Bizning to\'liq katalogimizni ko\'ring.',

@@ -17,7 +17,7 @@ class ApplicationResource extends Resource
 {
     protected static ?string $model = Application::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
 
     public static function getModelLabel(): string
     {
@@ -51,7 +51,11 @@ class ApplicationResource extends Resource
                     ->label('Сообщение')
                     ->columnSpanFull(),
                 Forms\Components\Select::make('product_id')
-                    ->relationship('product', 'name')
+                    ->relationship(
+                        name: 'product',
+                        titleAttribute: 'name',
+                        modifyQueryUsing: fn (Builder $query) => $query->orderBy('id'),
+                    )
                     ->disabled()
                     ->label('Товар'),
                 Forms\Components\TextInput::make('locale')
@@ -66,6 +70,10 @@ class ApplicationResource extends Resource
                     ])
                     ->required()
                     ->default('pending'),
+                Forms\Components\Textarea::make('admin_comment')
+                    ->label('Комментарий администратора')
+                    ->placeholder('Напишите результат связи с клиентом...')
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -81,8 +89,7 @@ class ApplicationResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('product.name')
                     ->label('Товар')
-                    ->searchable()
-                    ->sortable(),
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('locale')
                     ->label('Язык')
                     ->badge()
@@ -101,6 +108,10 @@ class ApplicationResource extends Resource
                         'processed' => 'Обработано',
                         'canceled' => 'Отменено',
                     }),
+                Tables\Columns\TextColumn::make('admin_comment')
+                    ->label('Комментарий')
+                    ->limit(50)
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Дата создания')
                     ->dateTime('d.m.Y H:i')
@@ -113,7 +124,13 @@ class ApplicationResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('status')
+                    ->label('Статус')
+                    ->options([
+                        'pending' => 'В ожидании',
+                        'processed' => 'Обработано',
+                        'canceled' => 'Отменено',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

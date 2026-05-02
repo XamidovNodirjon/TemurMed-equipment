@@ -21,7 +21,7 @@ class ProductResource extends Resource
 
     protected static ?string $model = Product::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
 
     public static function getModelLabel(): string
     {
@@ -93,9 +93,16 @@ class ProductResource extends Resource
                 Forms\Components\Section::make()
                     ->schema([
                         Forms\Components\FileUpload::make('image')
-                            ->label('Изображение')
+                            ->label('Главное изображение')
                             ->image()
                             ->directory('products'),
+                        Forms\Components\FileUpload::make('images')
+                            ->label('Галерея изображений')
+                            ->image()
+                            ->multiple()
+                            ->reorderable()
+                            ->appendFiles()
+                            ->directory('products/gallery'),
                         Forms\Components\TextInput::make('price')
                             ->label('Цена')
                             ->numeric()
@@ -109,14 +116,7 @@ class ProductResource extends Resource
                             ->default(false),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Характеристики')
-                    ->schema([
-                        Forms\Components\KeyValue::make('specifications')
-                            ->label('Параметры')
-                            ->keyLabel('Параметр')
-                            ->valueLabel('Значение')
-                            ->nullable(),
-                    ]),
+
             ]);
     }
 
@@ -129,7 +129,9 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('Название')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable(query: function (Builder $query, string $direction): Builder {
+                        return $query->orderByRaw("name->>'".app()->getLocale()."' $direction");
+                    }),
                 Tables\Columns\TextColumn::make('category.name')
                     ->label('Категория')
                     ->sortable(query: function (Builder $query, string $direction): Builder {
