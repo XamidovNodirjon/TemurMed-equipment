@@ -9,9 +9,9 @@
                     <!-- Breadcrumb (Left-aligned) -->
                     <nav aria-label="Breadcrumb">
                         <ol role="list" class="flex items-center space-x-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400">
-                            <li><a href="{{ route('home', app()->getLocale()) }}" class="hover:text-blue-900 transition-colors">Bosh sahifa</a></li>
+                            <li><a href="{{ route('home', app()->getLocale()) }}" class="hover:text-blue-900 transition-colors">{{ __('navbar.menu.home') }}</a></li>
                             <li><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg></li>
-                            <li><span class="{{ !isset($category) ? 'text-blue-900' : '' }}">Katalog</span></li>
+                            <li><span class="{{ !isset($category) ? 'text-blue-900' : '' }}">{{ __('catalog.breadcrumb') }}</span></li>
                             @if(isset($category))
                                 <li><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg></li>
                                 <li><span class="text-blue-900">{{ $category->name }}</span></li>
@@ -25,7 +25,7 @@
                             <select x-model="selectedCategory"
                                     @change="window.location.href = selectedCategory"
                                     class="block w-full appearance-none bg-white border border-gray-200 text-gray-900 text-[10px] sm:text-[11px] font-medium uppercase tracking-widest py-2 px-4 pr-10 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-900 transition-all cursor-pointer hover:border-blue-300">
-                                <option value="{{ route('catalog.index', ['locale' => app()->getLocale()]) }}">Barcha bo'limlar</option>
+                                <option value="{{ route('catalog.index', ['locale' => app()->getLocale()]) }}">{{ __('catalog.all_sections') }}</option>
                                 @foreach($categories as $cat)
                                     <option value="{{ route('catalog.category', ['locale' => app()->getLocale(), 'slug' => $cat->slug]) }}"
                                             {{ isset($category) && $category->id == $cat->id ? 'selected' : '' }}>
@@ -64,8 +64,8 @@
                     </div>
                 @empty
                     <div class="col-span-full py-32 text-center">
-                        <h3 class="text-xl font-bold text-gray-900">Mahsulotlar topilmadi</h3>
-                        <a href="{{ route('catalog.index', app()->getLocale()) }}" class="mt-4 inline-block text-[#00b4a2] font-bold hover:underline">Назад в каталог</a>
+                        <h3 class="text-xl font-bold text-gray-900">{{ __('catalog.no_products') }}</h3>
+                        <a href="{{ route('catalog.index', app()->getLocale()) }}" class="mt-4 inline-block text-[#00b4a2] font-bold hover:underline">{{ __('catalog.back_to_catalog') }}</a>
                     </div>
                 @endforelse
             </div>

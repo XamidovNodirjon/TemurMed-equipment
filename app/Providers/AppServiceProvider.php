@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,8 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        \Illuminate\Support\Facades\View::composer('partials.navbar', function ($view) {
-            $view->with('categories', \App\Models\Category::where('is_active', true)->get());
+        View::composer('partials.navbar', function ($view) {
+            $view->with('categories', Category::where('is_active', true)->get());
         });
+        Schema::defaultStringLength(191);
     }
 }
