@@ -17,9 +17,6 @@ return new class extends Migration
             $table->string('locale', 5)->nullable();
             $table->string('ip_hash', 64)->nullable();
             $table->string('user_agent', 512)->nullable();
-
-
-
             $table->date('clicked_date')->index();
             $table->char('clicked_month', 7)->index(); // YYYY-MM
             $table->timestamp('created_at')->nullable();
