@@ -29,4 +29,7 @@ Route::group(['prefix' => '{locale}', 'middleware' => 'set.locale'], function ()
 
     // Application
     Route::post('/application', [App\Http\Controllers\ApplicationController::class, 'store'])->name('application.store');
+
+    // Telegram kanal: bosishlarni hisoblab, kanalga yo'naltiradi (?src=button|qr)
+    Route::get('/telegram', [App\Http\Controllers\TelegramController::class, 'go'])->name('telegram.go');
 });

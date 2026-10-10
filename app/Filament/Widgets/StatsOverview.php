@@ -7,6 +7,7 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 use App\Models\Application;
 use App\Models\Product;
 use App\Models\News;
+use App\Models\TelegramClick;
 use Illuminate\Support\Facades\App;
 
 class StatsOverview extends BaseWidget
@@ -28,6 +29,14 @@ class StatsOverview extends BaseWidget
             $newsCount = News::count();
         } catch (\Exception $e) {}
 
+        $telegramToday = 0;
+        $telegramMonth = 0;
+        try {
+            $now = TelegramClick::now();
+            $telegramToday = TelegramClick::where('clicked_date', $now->toDateString())->count();
+            $telegramMonth = TelegramClick::where('clicked_month', $now->format('Y-m'))->count();
+        } catch (\Exception $e) {}
+
         return [
             Stat::make('Заявки', $applicationCount)
                 ->description('Всего заявок')
@@ -43,6 +52,12 @@ class StatsOverview extends BaseWidget
                 ->description('Опубликованные новости')
                 ->descriptionIcon('heroicon-m-newspaper')
                 ->color('info'),
+
+            Stat::make('Telegram сегодня', $telegramToday)
+                ->description('За месяц: ' . $telegramMonth . ' · подробнее')
+                ->descriptionIcon('heroicon-m-paper-airplane')
+                ->color('info')
+                ->url(\App\Filament\Pages\TelegramStatistics::getUrl()),
         ];
     }
 }

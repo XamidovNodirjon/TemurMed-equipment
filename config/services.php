@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'telegram' => [
+        'channel_url' => env('TELEGRAM_CHANNEL_URL', 'https://t.me/Med_Tex_Shop'),
+        // Kunlik/oylik hisobotlar shu vaqt mintaqasi bo'yicha shakllanadi
+        'report_timezone' => env('TELEGRAM_REPORT_TIMEZONE', 'Asia/Tashkent'),
+    ],
+
 ];

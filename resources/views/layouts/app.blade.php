@@ -30,5 +30,7 @@
         <!-- Footer -->
         @include('partials.footer')
     </div>
+
+    @include('partials.telegram_modal')
 </body>
 </html>
